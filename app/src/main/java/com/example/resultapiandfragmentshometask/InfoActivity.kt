@@ -49,5 +49,11 @@ class InfoActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_NAME = "name"
         const val EXTRA_SKIN_ID = "skinId"
+        const val EXTRA_HUNGER = "hunger"
+        const val EXTRA_JOY = "joy"
+        const val EXTRA_CLEAR= "clear"
+        const val EXTRA_FROG = "frog"
+        const val EXTRA_STARS = "stars"
+        const val EXTRA_ID = "id"
     }
 }

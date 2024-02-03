@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="top"
-    android:background="#2B4E3C"
+    android:background="@color/pale_green"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -13,8 +13,8 @@
         android:id="@+id/my_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="#982B2B"
         android:layout_weight="1"
+        android:backgroundTint="#982B2B"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/frog_item" />
 
@@ -23,7 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
-        android:text="Add frog" />
+        android:text="Add frog"
+        android:textColor="@drawable/text_selector"
+        android:backgroundTint="@color/backround"/>
 
 
 </LinearLayout>

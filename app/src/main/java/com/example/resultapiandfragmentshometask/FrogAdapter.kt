@@ -1,22 +1,17 @@
 package com.example.resultapiandfragmentshometask
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resultapiandfragmentshometask.databinding.FrogItemBinding
 
-class FrogAdapter : RecyclerView.Adapter<FrogAdapter.FrogHolder>() {
-    private val frogList = ArrayList<Frog>()
+class FrogAdapter(
+    private val activity: StarPicReturnable
+) : RecyclerView.Adapter<FrogAdapter.FrogHolder>() {
 
-    class FrogHolder(item: View) : RecyclerView.ViewHolder(item) {
-        val binding = FrogItemBinding.bind(item)
-        fun bind(frog: Frog) = with(binding) {
-            myNameText.text = frog.name
-            myAgeText.text = frog.age.toString()
-            frogAppearance.setImageResource(frog.skinId)
-        }
-    }
+    private val frogList = ArrayList<Frog>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FrogHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.frog_item, parent, false)
@@ -35,4 +30,42 @@ class FrogAdapter : RecyclerView.Adapter<FrogAdapter.FrogHolder>() {
         frogList.add(frog)
         notifyItemInserted(frogList.size - 1)
     }
+
+    inner class FrogHolder(item: View) : RecyclerView.ViewHolder(item) {
+
+        private val binding = FrogItemBinding.bind(item)
+
+        fun bind(frog: Frog) = with(binding) {
+            myNameText.text = frog.name
+            frogAppearance.setImageResource(frog.skinId)
+
+            careButton.setOnClickListener {
+                activity.launchContractForAdapter(frog)
+                reloadStarPic(activity.returnStarPic())
+                updateFrogData(
+                    frog,
+                    activity.returnIntent()?.getIntExtra(InfoActivity.EXTRA_JOY, 0) ?: 0,
+                    activity.returnIntent()?.getIntExtra(InfoActivity.EXTRA_HUNGER, 0) ?: 0,
+                    activity.returnIntent()?.getIntExtra(InfoActivity.EXTRA_CLEAR, 0) ?: 0
+                )
+            }
+        }
+
+        private fun reloadStarPic(resource: Int) {
+            binding.starPic.setImageResource(resource)
+        }
+
+        private fun updateFrogData(
+            itemFrog: Frog,
+            newJoy: Int,
+            newHunger: Int,
+            newClear: Int
+        ) {
+            itemFrog.joy = newJoy
+            itemFrog.hunger = newHunger
+            itemFrog.clear = newClear
+        }
+    }
+
+
 }

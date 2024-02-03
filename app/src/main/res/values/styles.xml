@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="froggy_buttons">
+        <item name="android:background">@drawable/button_backround_selector</item>
+    </style>
+</resources>
