@@ -8,21 +8,20 @@ import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.resultapiandfragmentshometask.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), StarPicReturnable {
+class MainActivity : AppCompatActivity() {//, StarPicReturnable {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val myAdapter = FrogAdapter(this)
-    private var starPicFromActivity = 0
-    private var intentFromCareActivity: Intent? = null
+    private val myAdapter = FrogAdapter(::launchContract)
+//    private var starPicFromActivity = 0
+//    private var intentFromCareActivity: Intent? = null
     private val contract = registerForActivityResult(CreateFrogContract()) {
         // it - объект Frog  который собирается в parseReult()
         // описываем callback, Коллбек сработает при получении результата.
         myAdapter.addFrog(it)
     }
     private val starContract = registerForActivityResult(OpenFrogContract()) {
-        intentFromCareActivity = it
-        starPicFromActivity = it?.getIntExtra(InfoActivity.EXTRA_STARS, 0) ?: R.drawable.frog5
+        myAdapter.replaceFrog(it.first, it.second)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +34,17 @@ class MainActivity : AppCompatActivity(), StarPicReturnable {
         }
     }
 
-    override fun returnStarPic(): Int {
-        return starPicFromActivity
+    private fun launchContract(inputFrog: FrogWithPosition) {
+        starContract.launch(inputFrog)
     }
 
-    override fun launchContractForAdapter(frog: Frog) {
-        starContract.launch(frog)
-    }
-
-    override fun returnIntent(): Intent? = intentFromCareActivity
+//    override fun returnStarPic(): Int {
+//        return starPicFromActivity
+//    }
+//
+//    override fun launchContractForAdapter(frog: Frog) {
+//        starContract.launch(frog)
+//    }
+//
+//    override fun returnIntent(): Intent? = intentFromCareActivity
 }

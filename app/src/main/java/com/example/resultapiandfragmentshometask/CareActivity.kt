@@ -28,7 +28,7 @@ class CareActivity : AppCompatActivity() {
         binding.playScore.text = intent.getIntExtra(InfoActivity.EXTRA_JOY, 3).toString()
         binding.clenScore.text = intent.getIntExtra(InfoActivity.EXTRA_CLEAR, 3).toString()
         happinessUpdate()
-        val buttons = mapOf<Button, TextView>(
+        val buttons = mapOf(
             binding.playButton to binding.playScore,
             binding.feedButton to binding.foodScore,
             binding.cleanButton to binding.clenScore
