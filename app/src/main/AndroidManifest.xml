@@ -13,9 +13,6 @@
         android:theme="@style/Theme.ResultApiAndFragmentsHometask"
         tools:targetApi="31">
         <activity
-            android:name=".CareActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -24,9 +21,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".InfoActivity"
-            android:exported="true"></activity>
     </application>
-
 </manifest>

@@ -1,15 +1,14 @@
 package com.example.resultapiandfragmentshometask
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.resultapiandfragmentshometask.databinding.FrogItemBinding
+import java.io.Serializable
 
-class FrogAdapter(
-    private val activity: StarPicReturnable
-) : RecyclerView.Adapter<FrogAdapter.FrogHolder>() {
+class FrogAdapter(val listener: FragmentsOpener) : RecyclerView.Adapter<FrogAdapter.FrogHolder>(),
+    Serializable {
 
     private val frogList = ArrayList<Frog>()
 
@@ -23,7 +22,7 @@ class FrogAdapter(
     }
 
     override fun onBindViewHolder(holder: FrogHolder, position: Int) {
-        holder.bind(frogList[position])
+        holder.bind(frogList[position], listener, position)
     }
 
     fun addFrog(frog: Frog) {
@@ -31,23 +30,25 @@ class FrogAdapter(
         notifyItemInserted(frogList.size - 1)
     }
 
+    fun updateFrogData(
+        position: Int,
+        newFrog: Frog
+    ) {
+        frogList[position] = newFrog
+        notifyItemChanged(position)
+    }
+
     inner class FrogHolder(item: View) : RecyclerView.ViewHolder(item) {
 
         private val binding = FrogItemBinding.bind(item)
 
-        fun bind(frog: Frog) = with(binding) {
+        fun bind(frog: Frog, listener: FragmentsOpener, position: Int) = with(binding) {
             myNameText.text = frog.name
             frogAppearance.setImageResource(frog.skinId)
+            starPic.setImageResource(frog.starsId)
 
             careButton.setOnClickListener {
-                activity.launchContractForAdapter(frog)
-                reloadStarPic(activity.returnStarPic())
-                updateFrogData(
-                    frog,
-                    activity.returnIntent()?.getIntExtra(InfoActivity.EXTRA_JOY, 0) ?: 0,
-                    activity.returnIntent()?.getIntExtra(InfoActivity.EXTRA_HUNGER, 0) ?: 0,
-                    activity.returnIntent()?.getIntExtra(InfoActivity.EXTRA_CLEAR, 0) ?: 0
-                )
+                listener.onStartCareFragment(frog, position)
             }
         }
 
@@ -55,16 +56,6 @@ class FrogAdapter(
             binding.starPic.setImageResource(resource)
         }
 
-        private fun updateFrogData(
-            itemFrog: Frog,
-            newJoy: Int,
-            newHunger: Int,
-            newClear: Int
-        ) {
-            itemFrog.joy = newJoy
-            itemFrog.hunger = newHunger
-            itemFrog.clear = newClear
-        }
     }
 
 

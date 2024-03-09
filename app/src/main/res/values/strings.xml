@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ResultApiAndFragmentsHometask</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_name_toast_text">Введите имя лягушонка</string>
+    <string name="overfilled_vale_text">Упс, кажется ту мач</string>
 </resources>
